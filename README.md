@@ -1,2 +1,10 @@
 # nerfgun-controller
 Attiny45/85 firmware to control a laserpointer and high performance LED for a nerfgun
+
+I modded a laser pointer module and a bright LED on my nerfgun, added two pushbuttons to the grip and screwed a battery box to the side. Per default the battery box can hold 3 AA batteries. I removed one spring holder and reduced the capacity to two AA batteries which gave me space for a small circuit board containing a Atmel Attiny45, some resistors and two PN2222 NPN transistors to control the LED and laser (the Attiny can provide only about 10mA per output pin which is not enough to power my equipment but it is more than sufficient to switch the NPN transistors).
+
+This little program reads inputs from the two pushbuttons, debounces them and controls the laser (one push = on, next push = off and so on) and the LED (one push = on, next push = random strobe mode, next push = off). When laser and LED are off, the program configures pinchange-interrupts for the two push buttons and put the microcontroller to sleep. You can wake it up by pushing a button (which will activate LED or laser, whatever you've pushed). My battery box has an on/off switch but I keep forgetting to switch it off. While the microcontroller is running and waiting for a button push, it pulls about 4mA continously until the battery runs dry. When it puts itself to sleep waiting for the next button push, it pulls below 100uA (which is the smallest current my multimeter can measure).
+
+The program as it is now will not run on a Attiny25. It compiles to a binary containing 2106 bytes, the Attiny25 can store only 2048 bytes. I'm pretty sure you can optimize the code some more to free the necessary 58 bytes, but if it has to be quick and dirty, remove the sleep mode code and the includes for interrupt.h and sleep.h. That should reduce the code enough.
+
+A big thank you to Thomas Ouellet Fredericks for his Bounce2 library (https://github.com/thomasfredericks/Bounce2) which I use in this project. That one is a great piece of software I use in almost all of my projects.

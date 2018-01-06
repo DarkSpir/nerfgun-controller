@@ -52,12 +52,10 @@ void loop() {
       case 0:
         digitalWrite(PINLIGHT, HIGH);
         effLight = 1;
-        sleepBool = false;
         break;
 
       case 1:
         effLight = 2;
-        sleepBool = false;
         effStrobo = geninterval();
         stroboMillis = millis();
         break;
@@ -65,8 +63,6 @@ void loop() {
       case 2:
         digitalWrite(PINLIGHT, LOW);
         effLight = 0;
-        effStrobo = 0;
-        sleepBool = false;
         break;
     }
   }
@@ -79,10 +75,10 @@ void loop() {
     }
   }
   
-  if((effLight == 0) && (effLaser == 0) && (!sleepBool)) {
-    sleepBool = true;
-    sleepMillis = millis();
-  }
+//  if((effLight == 0) && (effLaser == 0) && (!sleepBool)) {
+//    sleepBool = true;
+//    sleepMillis = millis();
+//  }
 
   if(sleepBool) {
     if(millis() - sleepMillis > 200) {
@@ -100,6 +96,11 @@ void loop() {
       GIMSK = 0;                            // Since we don't use interrupt handling except for Sleep wakeup, disable PCINT
       PCMSK = 0;                            // We disabled PCINT so we don't need to know what kind of PCINT we should listen to
       sei();                                // Cleanup done, enable interrupt handling again.
+    }
+  } else {
+    if((effLight == 0) && (effLaser == 0)) {
+      sleepBool = true;
+      sleepMillis = millis();
     }
   }
 }

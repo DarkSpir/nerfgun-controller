@@ -17,7 +17,7 @@ This is the 3 Button version of the controller. In the original design, I left o
 
 The idea behind this is to make strobe mode quickly accessible (when you don't use the LED as flashlight) and have a quick way to temporarely switch off the LED when approaching a corner for example. Downside is that when you use the LED as flashlight, you cannot go directly into strobe mode but have to switch it off first. I think this is no real problem since you can also use the flashlight mode to blind your opponent or manually strobe the LED mashing the tactic button, but this has to be verified in battle first.
 
-This is the circuit I used for this ![alt text](Nerfgun%20Controller%203-Button_Schaltplan.png)
+This is the circuit I used for this ![alt text](Nerfgun%20Controller%203%20Button_Schaltplan.png)
 
 Like the original two-button solution, you need at least an Attiny45 for this, too. But since the push button handling for Light and Laser are simpler here, you can downsize it by removing the btnFlash object in setup() and removing the two IF blocks using it in its conditions. This will effectively take away the tactical button ability (and the strobe mode) but the resulting binary will be small enough to run even on an Attiny25 and you will keep the sleep mode which significantly lowers the drain on your battery.
 
